@@ -24,6 +24,7 @@ PACKAGING_DIR=${RELEASE_DIR}/packaging/macos
 cat <<EOF > ${PACKAGING_DIR}/config.local.sh
 export SIGNATURE_IDENTITY="Developer ID Application: Graham Thompson (H4MM26UAYB)"
 export NOTARY_PROFILE="NotaryProfile"
+export DRAKETHREADS=$(sysctl -n hw.logicalcpu)
 EOF
 
 QT_PATCH_DIR=${SCRIPT_DIR}/qt-patches
