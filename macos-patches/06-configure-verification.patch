@@ -1,0 +1,9 @@
+--- config.sh.bak	2026-05-10 17:17:49
++++ config.sh	2026-05-10 14:22:56
+@@ -18,3 +18,6 @@
+ export SIGNATURE_IDENTITY="Developer ID Application: Moritz Bunkus (YZ9DVS8D8C)"
+ export DYLD_LIBRARY_PATH=${TARGET}/lib:${DYLD_LIBRARY_PATH}
+ export NOTARY_PROFILE=""
++export AUTHOR_IDENTITY="moritz@bunkus.org"
++export AUTHOR_PUBLIC_KEY_URL="https://mkvtoolnix.download/gpg-pub-moritzbunkus.gpg"
++export SOURCES_URL="https://mkvtoolnix.download/sources"
