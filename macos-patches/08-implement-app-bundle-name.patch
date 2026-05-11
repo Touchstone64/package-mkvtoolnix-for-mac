@@ -1,0 +1,29 @@
+--- build.sh.bak	2026-05-11 10:06:13
++++ build.sh	2026-05-11 10:03:01
+@@ -391,7 +391,7 @@
+   if [[ -z ${MTX_VER} ]] fail Variable MTX_VER not set
+ 
+   dmgbase=${CMPL}/dmg-${MTX_VER}
+-  dmgcnt=$dmgbase/MKVToolNix-${MTX_VER}.app/Contents
++  dmgcnt=$dmgbase/${APP_BUNDLE_NAME}/Contents
+   dmgmac=$dmgcnt/MacOS
+ 
+   local -a args
+@@ -463,7 +463,7 @@
+   if [[ -f packaging/macos/unlock_keychain.sh ]] packaging/macos/unlock_keychain.sh
+ 
+   dmgbase=${CMPL}/dmg-${MTX_VER}
+-  dmgapp=$dmgbase/MKVToolNix-${MTX_VER}.app
++  dmgapp=$dmgbase/${APP_BUNDLE_NAME}
+   dmgcnt=$dmgapp/Contents
+   dmgmac=$dmgcnt/MacOS
+   latest_link=${CMPL}/latest
+@@ -496,7 +496,7 @@
+ https://mkvtoolnix.download/downloads.html#macosx-old
+ 
+ If you need the command line tools then copy mkvextract, mkvinfo,
+-mkvmerge and mkvproedit from ./MKVToolNix-${MTX_VER}/Contents/MacOS/
++mkvmerge and mkvproedit from ./${APP_BUNDLE_NAME}/Contents/MacOS/
+ to /usr/local/bin
+ 
+ EOF

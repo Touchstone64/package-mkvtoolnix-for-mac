@@ -1,0 +1,11 @@
+--- config.sh.bak	2026-05-11 13:05:02
++++ config.sh	2026-05-11 13:10:13
+@@ -21,4 +21,5 @@
+ export AUTHOR_IDENTITY="moritz@bunkus.org"
+ export AUTHOR_PUBLIC_KEY_URL="https://mkvtoolnix.download/gpg-pub-moritzbunkus.gpg"
+ export SOURCES_URL="https://mkvtoolnix.download/sources"
+-export APP_BUNDLE_NAME="MKVToolNix.app"
+\ No newline at end of file
++export APP_BUNDLE_NAME="MKVToolNix.app"
++export DMG_REVISION="unofficial"
+\ No newline at end of file
