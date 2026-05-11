@@ -1,9 +1,9 @@
 # release-arm64-mkvtoolnix-gui
-These are the artefacts I needed to build a notarized MKVToolNix GUI for Apple Silicon on a fresh install of macOS.
+This repo originally contained the artefacts I needed to package a notarized MKVToolNix GUI for Apple Silicon on a fresh install of macOS. It has since grown to enable me to create packages for Apple Silicon, Intel and universal binary MKVToolNix releases.
 
 The script and patches in this repo are the only elements that can be attributed to [me](mailto:touchstone64@gweb.me.uk). The MKVToolNix GUI and associated tools are created and owned by Moritz Bunkus and are thoroughly [documented here](https://mkvtoolnix.download/index.html).
 
-These artefacts have been used to build notarized releases of the MKVToolNix GUI as described below:
+These artefacts have been used to package notarized releases of the MKVToolNix GUI as described below:
 
 | repo | macOS | MVKToolNix GUI | Disk image |
 |:----:|:-----:|:--------------:|:----------:|
@@ -12,15 +12,39 @@ These artefacts have been used to build notarized releases of the MKVToolNix GUI
 | 1.1 | 26.4.1 | 98.0 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.1/MKVToolNix-98.0.dmg) |
 | 1.2 | 26.4.1 | 98.0 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.2/MKVToolNix-98.0.dmg) |
 
-In releases 1.x of the repo, modifications to mkvtoolnix build and configuration scripts were applied as patches to the original source to achieve (for example) automated notarization. Those modifications are now incorporated in the mkvtoolnix source and will be part of release 99 and later. This pattern will repeat as new mkvtoolnix releases become available.
+# Strategy
 
-Ideally this repo would be a benign packaging layer automating the creation of notarized Apple Silicon (arm64) and Intel (x86_64) MKVToolNix GUI releases. 
+In the initial releases (1.x) of the repo, modifications to MKVToolNix build and configuration scripts were applied as patches to the source to achieve automated notarization and other features. Each release of the repo repackaged MKVToolNix 98.0, without affecting the upstream source.
 
-However, if a Mac-specific build issue does arise with a signed release of mkvtoolnix source, I will endeavour to repair it with patches and scripts in this repo. The release source itself will not be modified. I will then use those repairs to build macOS releases from source and, once proven, add the repairs back into mkvtoolnix via pull requests to the upstream repo.
+This technique worked well and those packaging modifications have since been incorporated into the upstream source, ready to be part of the next MKVToolNix. (The changes can be reviewed in `NEWS.md` included in each MKVToolNix release.) The patches in this repo mean that existing releases can also be repackaged with those same enhancements.
 
-The working DMG packages are uploaded to the mkvtoolnix domain for download and distribution.
+One obvious change is that DMG package file names include the machine type (arm64 or x86_64) that they target. So, an MKVToolNix 98.0 package built on an Intel Mac, which used to be named `MKVToolNix-98.0.dmg`, will now be named `MKVToolNix-98.0-x86_64.dmg`.
 
-The repairs that were merged back into mkvtoolnix for a release will be removed from this repo once the next release becomes available, and the cycle repeats.
+Ideally this repo would be a benign packaging layer automating the creation of notarized Apple Silicon (arm64) and Intel (x86_64) MKVToolNix releases from signed releases of MKVToolNix source. However, the main lesson learned during the development of the initial repo releases was that changes beyond my control -- such as third-party libraries being deprecated, or being broken by a macOS release -- meant that I need to be able to repackage an MKVToolnix release without changing the release itself.
+
+Consequently, macOS packaging has been enhanced to add a 'DMG revision' to the DMG package name. So, if a release needs to be repackaged to support a new version of macOS, for example, that revision would be incremented.
+
+Consider a new MKVToolNix release, 99.0. Once I have the signed MKVToolNix source I would use it to create `MKVToolNix-99.0-1-arm64.dmg`, `MKVToolNix-99.0-1-x86_64.dmg` and so on. Any need for subsequent repackaging would mean me creating patches and/or scripts in this repo to address the issue and resulting in my making `MKVToolNix-99.0-2-arm64.dmg`, `MKVToolNix-99.0-2-x86_64.dmg` and so on available to the author.
+
+This is the pattern that will repeat as new MKVToolNix releases become available.
+
+Specifically:
+
+- A new release of MKVToolNix is created, and a signed source release becomes available to me.
+
+- Any packaging patches and scripts that were developed to repair the last release, that have since been incorporated into the MKVToolNix repo, are removed from this repo.
+
+- macOS packages for the new release are created using the scripts in this repo, using 'DMG revision' 1. If the packages build without incident then they are uploaded to the MKVToolNix domain for download and further distribution (for example via Homebrew) and I publish a new release of this repo.
+
+- If, however, a Mac-specific build issue does arise with the release, I will endeavour to repair it with patches and scripts which I will publish and release in this repo. (The release source itself will never be modified.) Once the packages build without incident then they are uploaded using 'DMG revision' 1 to the MKVToolNix domain, for download and further distribution (for example via Homebrew), I publish a new release of this repo and the repairs are fed back into MKVToolNix source via pull requests ready for the next release.
+
+- If, over time, any Mac-specific build issues arise with the release before the next MKVToolNix release, I will endeavour to repair them with patches and scripts which I will publish and release in this repo. Once the packages build without incident then the packages - which will include an incremented 'DMG revision' - are uploaded to the MKVToolNix domain for download and further distribution (for example via Homebrew), I publish a new release of this repo and the repairs are fed back into MKVToolNix source via pull requests ready for the next release. This step repeats until...
+
+- A new MKVToolNix release is published, and the cycle starts again...
+
+If you do find a Mac-specific build issue with a release please [create an issue](https://github.com/Touchstone64/release-arm64-mkvtoolnix-gui/issues/new/) so I can help resolve it.
+
+# What Comes Next in this README.md
 
 The rest of this README.md file is essentially a record of the steps taken to build, sign and notarize an MVKToolNix GUI disk image ready for installation on macOS.
 
