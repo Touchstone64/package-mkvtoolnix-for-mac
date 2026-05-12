@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh #-x
+
 SCRIPT_NAME=${0:t}
 SCRIPT_DIR=${0:h}
 
@@ -7,25 +8,33 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-RELEASE_VERSION="$1"
-DMG_REVISION_FILE="dmg-revision.txt"
-
 set -e
 
-DMG_REVISION=$(< ${SCRIPT_DIR}/${DMG_REVISION_FILE})
-if [[ -z ${DMG_REVISION} ]]; then
-    echo "The DMG revision to build must be specified in ./${DMG_REVISION_FILE}"
-    exit 2
-fi
+function ensure_revision_file {
+    mkdir -p ${NEXT_REVISION_DIR}
 
+    if [[ ! -f ${DMG_REVISION_FILE} ]] ; then
+        echo 1 > ${DMG_REVISION_FILE}
+    fi
+}
+
+RELEASE_VERSION="$1"
 RELEASE_TAG="release-${RELEASE_VERSION}"
 RELEASE_DIR=${SCRIPT_DIR}/${RELEASE_TAG}
+
 git clone -c advice.detachedHead=false \
     --depth 1 --branch ${RELEASE_TAG} \
     https://codeberg.org/mbunkus/mkvtoolnix \
     ${RELEASE_DIR}
 
+NEXT_REVISION_DIR=${SCRIPT_DIR}/next-package-revision
+MACHINE=$(uname -m)
+DMG_REVISION_FILE=${NEXT_REVISION_DIR}/${RELEASE_TAG}-${MACHINE}.txt
+
+ensure_revision_file
+
 echo "Creating config.local.sh"
+DMG_REVISION=$(<${DMG_REVISION_FILE})
 PACKAGING_DIR=${RELEASE_DIR}/packaging/macos
 cat <<EOF > ${PACKAGING_DIR}/config.local.sh
 export SIGNATURE_IDENTITY="Developer ID Application: Graham Thompson (H4MM26UAYB)"
