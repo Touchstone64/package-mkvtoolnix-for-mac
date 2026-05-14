@@ -40,6 +40,7 @@ cat <<EOF > ${PACKAGING_DIR}/config.local.sh
 export SIGNATURE_IDENTITY="Developer ID Application: Graham Thompson (H4MM26UAYB)"
 export NOTARY_PROFILE="NotaryProfile"
 export DRAKETHREADS=$(sysctl -n hw.logicalcpu)
+export MAKEFLAGS="-j ${DRAKETHREADS}"
 export DMG_REVISION=${DMG_REVISION}
 EOF
 
