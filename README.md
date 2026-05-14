@@ -1,16 +1,18 @@
-# release-arm64-mkvtoolnix-gui
+# package-mkvtoolnix-for-mac
 This repo originally contained the artefacts I needed to package a notarized MKVToolNix GUI for Apple Silicon on a fresh install of macOS. It has since grown to enable me to create packages for Apple Silicon, Intel and universal binary MKVToolNix releases.
 
 The script and patches in this repo are the only elements that can be attributed to [me](mailto:touchstone64@gweb.me.uk). The MKVToolNix GUI and associated tools are created and owned by Moritz Bunkus and are thoroughly [documented here](https://mkvtoolnix.download/index.html).
 
 These artefacts have been used to package notarized releases of the MKVToolNix GUI as described below:
 
-| repo | macOS | MVKToolNix GUI | Disk image |
-|:----:|:-----:|:--------------:|:----------:|
-| 0.1 | 26.4.1 | 98.0 | (deprecated) |
-| 1.0 | 26.4.1 | 98.0 | (deprecated) |
-| 1.1 | 26.4.1 | 98.0 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.1/MKVToolNix-98.0.dmg) |
-| 1.2 | 26.4.1 | 98.0 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.2/MKVToolNix-98.0.dmg) |
+| repo | MVKToolNix GUI | DMG revision | Built on macOS | Apple Silicon | Intel | Universal |
+|:----:|:--------------:|:-----:|:-----:|:----------:|:----------:|:----------:|
+| 1.3  | 98.0 |1| 26.5    | url tba | - | url tba |
+|      |      |1| 15.7.7 | - | url tba | url tba |
+| 1.2  | 98.0 || 26.4.1 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.2/MKVToolNix-98.0.dmg) | n/a | none |
+| 1.1  | 98.0 || 26.4.1 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.1/MKVToolNix-98.0.dmg) | n/a | none |
+| 1.0  | 98.0 || 26.4.1 | (deprecated) | - | - |
+| 0.1  | 98.0 || 26.4.1 | (deprecated) | - | - |
 
 ## Strategy
 
@@ -87,7 +89,7 @@ The text 'your terminal' below refers to your chosen terminal emulator, be it th
 
 ## Setup build pre-requisites on macOS
 
-- Use the App Store to install Xcode (this is where you'll sign in with your Apple account)
+- Sign in to the Apple Developer site with your Apple account to download and install Xcode (for Sequoia, you'll need Xcode 26.0.1)
 - Run Xcode and accept the license agreements
 - In your terminal, run `xcode-select --install` to install the command-line developer tools
 - In your terminal, use `xcode-select -p` to check the location of the developer directory, it should be '/Applications/Xcode.app/Contents/Developer'
@@ -127,6 +129,6 @@ Using release 98.0 as an example, in your terminal:
 - Run `./build.sh` to build all of the component parts of the MKVToolNix GUI. This will take some time.
 - Run `./build.sh dmg` to assemble, sign and (optionally) notarize the disk image for the release
 
-The build script uses ~/opt and ~/tmp to build and assemble all the component parts needed to create the MKVToolNix GUI from source.
+By default the build script uses ~/opt and ~/tmp to build and assemble all the component parts needed to create the MKVToolNix GUI from source.
 
-The signed and (optionally) notarized disk image will be located at ~/tmp/compile/MKVToolNix-98.0-arm64.dmg or MKVToolNix-98.0-x86_64.dmg depending on your Mac's CPU type.
+The signed and (optionally) notarized disk image will be located at ~/tmp/compile/MKVToolNix-98.0-r-arm64.dmg or MKVToolNix-98.0-r-x86_64.dmg (depending on your Mac's CPU type) where `r` is the DMG revision.
