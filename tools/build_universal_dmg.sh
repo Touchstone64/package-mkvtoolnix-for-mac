@@ -1,24 +1,21 @@
-#! /usr/bin/env zsh
+#! /usr/bin/env zsh # -x
 
 SIGNATURE_IDENTITY="Developer ID Application: Graham Thompson (H4MM26UAYB)"
 NOTARY_PROFILE="NotaryProfile"
-RELEASE_VERSION=98.0
-DMG_REVISION=1
-WORK_DIR=~/tmp/compile/universal-dmg-${RELEASE_VERSION}-${DMG_REVISION}
 
 SCRIPT_NAME=${0:t}
 SCRIPT_DIR=${0:h}
 
 set -e
 
-function exit_with_error_code() {
+function exit_with_error_code {
     local rc=$1
     shift
     echo ${*} >&2
     exit ${rc}
 }
 
-function mount_dmg_and_get_volume_name() {
+function mount_dmg_and_get_volume_name {
     local dmg_file=${1}
 
     volume=$( hdiutil attach -puppetstrings ${dmg_file} | grep ^/dev | grep Apple_HFS | cut -f 3 )
@@ -29,8 +26,25 @@ function mount_dmg_and_get_volume_name() {
     echo ${volume}
 }
 
-function check_for_compatible_packages () { 
-    # Packages (.dmgs) are considered compatible if their app names match
+function check_for_compatible_packages {
+    local dmg1=${1}
+    local dmg2=${2}
+
+    local -a dmg1_spec dmg2_spec
+    dmg1_spec=( $(echo ${dmg1:t:r} | awk -F- '{ print $1 "-" $2 " " $3 }' ) ) 
+    dmg2_spec=( $(echo ${dmg2:t:r} | awk -F- '{ print $1 "-" $2 " " $3 }' ) ) 
+
+    if [[ ${dmg1_spec[1]} != ${dmg2_spec[1]} ]]; then
+        exit_with_error_code 20 "Cannot build universal app: release names don't match, ${dmg1_spec[1]} vs. ${dmg2_spec[1]}"
+    fi
+
+    if [[ ${dmg1_spec[2]} != ${dmg2_spec[2]} ]]; then
+        exit_with_error_code 21 "Cannot build universal app: DMG revisions don't match, ${dmg1_spec[2]} vs. ${dmg2_spec[2]}"
+    fi
+}
+
+function check_for_compatible_content { 
+    # Package contents are considered compatible if their app names match
     # and the Info.plist files in those apps have the same content
 
     local dmg1=${1}
@@ -40,35 +54,35 @@ function check_for_compatible_packages () {
     app2=$(get_app_from_dmg ${dmg2})
 
     if [ ${app1:t} != ${app2:t} ]; then
-        exit_with_error_code 20 "Cannot build universal app: ${app1:t} and ${app2:t} don't have the same name"
+        exit_with_error_code 30 "Cannot build universal app: ${app1:t} and ${app2:t} don't have the same name"
     fi
 
     plist1=${app1}/${CONTENTS_DIR}/${INFO_PLIST}
     if [ ! -f ${plist1} ]; then
-        exit_with_error_code 21 "${INFO_PLIST} not found in ${app1}/${CONTENTS_DIR}"
+        exit_with_error_code 31 "${INFO_PLIST} not found in ${app1}/${CONTENTS_DIR}"
     fi
 
     plist2=${app2}/${CONTENTS_DIR}/${INFO_PLIST}
     if [ ! -f ${plist2} ]; then
-        exit_with_error_code 22 "${INFO_PLIST} not found in ${app2}/${CONTENTS_DIR}"
+        exit_with_error_code 32 "${INFO_PLIST} not found in ${app2}/${CONTENTS_DIR}"
     fi
 
     set +e ; comparison=$( cmp ${plist1} ${plist2} ) ; set -e
     if [[ -n ${comparison} ]]; then
-        exit_with_error_code 23 "Cannot build universal app: contents of ${INFO_PLIST} differ between ${app1} and ${app2}"
+        exit_with_error_code 33 "Cannot build universal app: contents of ${INFO_PLIST} differ between ${app1} and ${app2}"
     fi
 }
 
-function get_app_from_dmg () {
+function get_app_from_dmg {
     local dmg=${1}
     local app=$( find ${dmg} -depth 1 -type d -iname "*.app" -print )
     if [[ ! -n ${app} ]]; then
-        exit_with_error_code 30 "Cannot find *.app in ${dmg}"
+        exit_with_error_code 40 "Cannot find *.app in ${dmg}"
     fi
     echo ${app}
 }
 
-function duplicate_files_but_not_directories() {
+function duplicate_files_but_not_directories {
     local from=${1}
     local to=${2}
 
@@ -82,7 +96,7 @@ function duplicate_files_but_not_directories() {
     done
 }
 
-function duplicate_non_mac_os_contents() {
+function duplicate_non_mac_os_contents {
     local from=${1}
     local to=${2}
 
@@ -96,7 +110,7 @@ function duplicate_non_mac_os_contents() {
     done
 }
 
-function test_file_exists_in_two_locations() {
+function test_file_exists_in_two_locations {
     local file=${1}
     local location1=${2}
     local location2=${3}
@@ -110,7 +124,7 @@ function test_file_exists_in_two_locations() {
     fi
 }
 
-function combine_executables() {
+function combine_executables {
     local arch1=${1}
     local arch2=${2}
     local universal=${3}
@@ -139,7 +153,7 @@ function combine_executables() {
 
 }
 
-function combine_directories() {
+function combine_directories {
     local arch1=${1}
     local arch2=${2}
     local universal=${3}
@@ -194,6 +208,12 @@ if [ ! -f ${dmg2} ]; then
     exit_with_error_code 3 "DMG file not found: ${dmg2}"
 fi
 
+check_for_compatible_packages ${dmg1} ${dmg2}
+
+dmg_spec=( $(echo ${dmg1:t:r} | awk -F- '{ print $1 "-" $2 " " $3 }' ) )
+universal_release=${dmg_spec[1]}
+universal_revision=${dmg_spec[2]}
+
 mkdir -p ${dmg_dir}
 
 echo Attaching DMG volumes
@@ -202,8 +222,9 @@ DMG2_VOLUME=$(mount_dmg_and_get_volume_name ${dmg2})
 
 trap "echo 'Detaching DMG volumes'; hdiutil detach '${DMG1_VOLUME}'; hdiutil detach '${DMG2_VOLUME}'" EXIT
 
-check_for_compatible_packages ${DMG1_VOLUME} ${DMG2_VOLUME}
+check_for_compatible_content ${DMG1_VOLUME} ${DMG2_VOLUME}
 
+WORK_DIR=~/tmp/compile/universal-dmg-${universal_release}-${universal_revision}
 rm -rf ${WORK_DIR}
 universal_app=${WORK_DIR}/${APP_NAME}.app
 universal_contents=${universal_app}/${CONTENTS_DIR}
@@ -236,7 +257,7 @@ if [[ -n ${SIGNATURE_IDENTITY} ]]; then
     codesign --force ${harden} --sign ${SIGNATURE_IDENTITY} ${universal_macos}/mkv*(.)
 fi
 
-volumename=${APP_NAME}-${RELEASE_VERSION}-${DMG_REVISION}-universal
+volumename=${APP_NAME}-${universal_release}-${universal_revision}-universal
 dmgname=${dmg_dir}/${volumename}.dmg
 
 rm -f ${dmgname}
