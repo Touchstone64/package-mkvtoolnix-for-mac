@@ -7,12 +7,12 @@ These artefacts have been used to package notarized releases of the MKVToolNix G
 
 | repo | MVKToolNix GUI | DMG revision | Built on macOS | Apple Silicon | Intel | Universal |
 |:----:|:--------------:|:-----:|:-----:|:----------:|:----------:|:----------:|
-| (next) | 98.0 |1| 26.5    | url tba | - | url tba |
-|      |      |1| 15.7.7 | - | url tba | url tba |
-| 1.2  | 98.0 || 26.4.1 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.2/MKVToolNix-98.0.dmg) | n/a | none |
-| 1.1  | 98.0 || 26.4.1 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.1/MKVToolNix-98.0.dmg) | n/a | none |
-| 1.0  | 98.0 || 26.4.1 | (deprecated) | - | - |
-| 0.1  | 98.0 || 26.4.1 | (deprecated) | - | - |
+| 1.3  | 98.0 |1| 26.5   | [download](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-arm64.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-arm64.dmg.sha512)) | - | [download](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-universal.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-universal.dmg.sha512)) |
+|      |      |1| 15.7.7 | - | [download](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-x86_64.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-x86_64.dmg.sha512)) | [download](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-universal.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/98.0/MKVToolNix-98.0-1-universal.dmg.sha512)) |
+| 1.2  | 98.0 || 26.4.1  | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.2/MKVToolNix-98.0.dmg) | n/a | none |
+| 1.1  | 98.0 || 26.4.1  | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.1/MKVToolNix-98.0.dmg) | n/a | none |
+| 1.0  | 98.0 || 26.4.1  | (deprecated) | - | - |
+| 0.1  | 98.0 || 26.4.1  | (deprecated) | - | - |
 
 ## Strategy
 
