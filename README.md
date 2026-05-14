@@ -7,7 +7,7 @@ These artefacts have been used to package notarized releases of the MKVToolNix G
 
 | repo | MVKToolNix GUI | DMG revision | Built on macOS | Apple Silicon | Intel | Universal |
 |:----:|:--------------:|:-----:|:-----:|:----------:|:----------:|:----------:|
-| 1.3  | 98.0 |1| 26.5    | url tba | - | url tba |
+| (next) | 98.0 |1| 26.5    | url tba | - | url tba |
 |      |      |1| 15.7.7 | - | url tba | url tba |
 | 1.2  | 98.0 || 26.4.1 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.2/MKVToolNix-98.0.dmg) | n/a | none |
 | 1.1  | 98.0 || 26.4.1 | [download](https://www.gweb.me.uk/dmg/arm64-mkvtoolnix-gui/1.1/MKVToolNix-98.0.dmg) | n/a | none |
