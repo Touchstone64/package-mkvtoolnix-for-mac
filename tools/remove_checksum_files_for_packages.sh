@@ -8,7 +8,7 @@ set -e
 if [ $# -ne 1 ]; then
     echo "usage: ${SCRIPT_NAME} <path>"
     echo
-    echo "${SCRIPT_NAME} will remove any files matching '*.dmg.sha*.txt' found in <path>."
+    echo "${SCRIPT_NAME} will remove any files matching '*.dmg.sha*' found in <path>."
     exit 1
 fi
 
@@ -19,7 +19,7 @@ if [[ ! -d ${dmg_dir} ]]; then
     exit 2
 fi
 
-for candidate in ${dmg_dir}/*.dmg.sha*.txt; do
+for candidate in ${dmg_dir}/*.dmg.sha*; do
     type=$(file -b ${candidate})
     if [[ ${type} != "ASCII text" ]]; then
         echo Not removing ${candidate:t} as it is not a text file
