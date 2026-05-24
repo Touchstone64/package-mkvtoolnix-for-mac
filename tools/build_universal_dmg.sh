@@ -18,7 +18,7 @@ function exit_with_error_code {
 function mount_dmg_and_get_volume_name {
     local dmg_file=${1}
 
-    volume=$( hdiutil attach -puppetstrings ${dmg_file} | grep ^/dev | grep Apple_HFS | cut -f 3 )
+    volume=$( hdiutil attach -puppetstrings ${dmg_file} | grep ^/dev | grep MKVToolNix | cut -f 3 )
     if [ ${volume[1,9]} != "/Volumes/" ]; then
         exit_with_error_code 10 "${dmg_file} not mounted into /Volumes/"
     fi
@@ -210,9 +210,9 @@ fi
 
 check_for_compatible_packages ${dmg1} ${dmg2}
 
-dmg_spec=( $(echo ${dmg1:t:r} | awk -F- '{ print $1 "-" $2 " " $3 }' ) )
-universal_release=${dmg_spec[1]}
-universal_revision=${dmg_spec[2]}
+dmg_spec=( $(echo ${dmg1:t:r} | awk -F- '{ print $1 " " $2 " " $3 }' ) )
+universal_release=${dmg_spec[2]}
+universal_revision=${dmg_spec[3]}
 
 mkdir -p ${dmg_dir}
 
@@ -262,7 +262,7 @@ dmgname=${dmg_dir}/${volumename}.dmg
 
 rm -f ${dmgname}
 hdiutil create -srcfolder ${WORK_DIR} -volname ${volumename} \
-    -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDZO -imagekey zlib-level=9 \
+    -fs APFS -format ULMO \
     ${dmgname}
 
 if [[ -n ${SIGNATURE_IDENTITY} ]] codesign --force -s ${SIGNATURE_IDENTITY} ${dmgname}
