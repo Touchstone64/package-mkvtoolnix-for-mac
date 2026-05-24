@@ -1,7 +1,0 @@
---- config.sh.bak	2026-04-21 13:06:35
-+++ config.sh	2026-04-21 14:27:24
-@@ -17,3 +17,4 @@
- export QTVER=${QTVER:-6.10.0}
- export SIGNATURE_IDENTITY="Developer ID Application: Moritz Bunkus (YZ9DVS8D8C)"
- export DYLD_LIBRARY_PATH=${TARGET}/lib:${DYLD_LIBRARY_PATH}
-+export NOTARY_PROFILE=""
