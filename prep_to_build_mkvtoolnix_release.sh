@@ -8,6 +8,7 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
+setopt NULL_GLOB
 set -e
 
 function ensure_revision_file {
