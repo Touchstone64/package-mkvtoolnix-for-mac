@@ -1,0 +1,13 @@
+--- Info.plist.bak	2026-06-06 18:56:34
++++ Info.plist	2026-06-06 18:56:29
+@@ -23,6 +23,10 @@
+     <key>CFBundleDisplayName</key>           <string>MKVToolNix</string>
+     <key>CFBundleName</key>                  <string>MKVToolNix</string>
+     <key>CFBundleIconFile</key>              <string>MKVToolNix.icns</string>
++    <key>CFBundleSupportedPlatforms</key>
++    <array>
++      <string>MacOSX</string>
++    </array>
+ 
+     <key>CFBundleDocumentTypes</key>
+     <array>
