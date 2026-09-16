@@ -65,9 +65,8 @@ if [[ -d ${MACOS_PATCH_DIR} ]]; then
 fi
 
 echo
-echo "You're ready to build revision ${DMG_REVISION} of the release ${RELEASE_VERSION} DMG, using:"
+echo "You're ready to build revision ${DMG_REVISION} of release ${RELEASE_VERSION} DMG, using:"
 echo
-echo "    cd ./${RELEASE_TAG}/packaging/macos"
-echo "    ./build.sh"
-echo "    ./build.sh dmg"
+echo "    cd \"./${RELEASE_TAG}/packaging/macos\""
+echo "    ./build.sh && ./build.sh dmg"
 echo
