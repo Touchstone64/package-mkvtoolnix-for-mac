@@ -7,6 +7,8 @@ These artefacts have been used to package notarized releases of the MKVToolNix G
 
 | repo | MVKToolNix GUI | DMG revision | Built on macOS | Apple silicon | Intel | Universal |
 |:----:|:--------------:|:-----:|:-----:|:----------:|:----------:|:----------:|
+| 1.8  | 102.0 |2| 26.7   | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-arm64.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-arm64.dmg.sha512)) | - | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-universal.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-universal.dmg.sha512)) |
+|      |      |2| 15.8 | - | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-x86_64.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-x86_64.dmg.sha512)) | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-universal.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-2-universal.dmg.sha512)) |
 | 1.7  | 102.0 |1| 26.7   | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-arm64.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-arm64.dmg.sha512)) | - | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-universal.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-universal.dmg.sha512)) |
 |      |      |1| 15.8 | - | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-x86_64.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-x86_64.dmg.sha512)) | [download](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-universal.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/102.0/MKVToolNix-102.0-1-universal.dmg.sha512)) |
 | 1.6  | 101.0 |1| 26.6.2   | [download](https://mkvtoolnix.download/macos/releases/101.0/MKVToolNix-101.0-1-arm64.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/101.0/MKVToolNix-101.0-1-arm64.dmg.sha512)) | - | [download](https://mkvtoolnix.download/macos/releases/101.0/MKVToolNix-101.0-1-universal.dmg) ([sha-512](https://mkvtoolnix.download/macos/releases/101.0/MKVToolNix-101.0-1-universal.dmg.sha512)) |
@@ -79,7 +81,7 @@ Provide a password and save the exported certificates. You'll use this export to
 (You may of course prefer to create a Developer ID Application certificate signing request on the fresh macOS installation. This export process is the just the method I chose to use.)
 
 ## Create a fresh macOS Install
-Create a new APFS volume on your chosen internal or external drive and use the 'Install macOS Tahoe' app to install macOS. The app can be downloaded from the App Store. A virtual machine (VM) can't be used because they don't support App Store installs, which is required to get Xcode.
+Create a new APFS volume on your chosen internal or external drive and use the 'Install macOS (insert version name here)' app to install macOS. The app can be downloaded from the App Store. A virtual machine (VM) can't be used because they don't support App Store installs, which is required to get Xcode, which is in turn required for Qt to build from source.
 
 ## Configure macOS
 Run through the installation of macOS, these are my preferences:
@@ -143,6 +145,6 @@ The signed and (optionally) notarized disk image will be located at ~/tmp/compil
 
 ## Publishing the DMGs
 
-'Publish' the arm64 and x86_64 DMGs (to automate the DMG revision numbering) using `./publish_revision.sh 98.0 arm64` and `./publish_revision.sh 98.0 x86_64` respectively.
+Using release 98.0 as an example, 'publish' the arm64 and x86_64 DMGs (to automate the DMG revision numbering) using `./publish_revision.sh 98.0 arm64` and `./publish_revision.sh 98.0 x86_64` respectively.
 
 The universal DMG is created using `tools/build_universal_dmg.sh` which takes the paths to the arm64 and x86_64 DMGs, and the directory to generate the universal DMG in, as arguments.
